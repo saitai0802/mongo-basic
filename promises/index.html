@@ -1,0 +1,32 @@
+<head>
+</head>
+<body>
+  <button>Click!</button>
+
+  <script>
+    function startGame() {
+      let counter = 0;
+
+      document.querySelector('button').addEventListener('click', () => {
+        ++counter;
+      });
+
+      // Most of the time we don't needa implement this part.
+      // We will leave this part to jquery, axio or such libaray to do.
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          if (counter > 5) {
+            resolve();
+          } else {
+            reject();
+          }
+        }, 2000);
+      });
+    }
+
+    // We will just need to implement this part most of the time. call人地野用多。
+    startGame() // return promise just created
+      .then(() => alert('You win!')) // resolved
+      .catch(() => alert('You lost!')); // rejectd
+  </script>
+</body>
