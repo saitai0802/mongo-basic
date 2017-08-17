@@ -10,6 +10,7 @@ describe('Deleting a user', () => {
       .then(() => done());
   });
 
+  // Remove User instance (Joe)
   it('model instance remove', (done) => {
     joe.remove()
       .then(() => User.findOne({ name: 'Joe' }))
@@ -20,7 +21,7 @@ describe('Deleting a user', () => {
   });
 
   it('class method remove', (done) => {
-    // Remove a bunch of records with some given criteria
+    // Remove "a bunch of records" with some given criteria
     User.remove({ name: 'Joe' })
       .then(() => User.findOne({ name: 'Joe' }))
       .then((user) => {

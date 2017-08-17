@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const PostSchema = require('./post');
 const Schema = mongoose.Schema;  // It return a schema (姐係table 樣)
 
+// for all validate related stuff, please check validation_test.js for more details!
 const UserSchema = new Schema({
   name: {
     type: String,
@@ -9,9 +10,12 @@ const UserSchema = new Schema({
       validator: (name) => name.length > 2,
       message: 'Name must be longer than 2 characters.'
     },
-    required: [true, 'Name is required.']
+    // Web experts prefer, don't return error code like "schema_USERNAME_error"
+    // it will make the job in front-end a lot easier, cuz you don't needa translate
+    // to some English friendly equivalent.
+    required: [true, 'Name is required.']  // [required is true, error message]
   },
-  posts: [PostSchema],
+  posts: [PostSchema], // Sub document
   likes: Number,
   blogPosts: [{
     type: Schema.Types.ObjectId,
@@ -19,6 +23,9 @@ const UserSchema = new Schema({
   }]
 });
 
+// testing file is in virtual_type_test.js
+// This is the way how we create a on the fire attribute for out model
+// getter and setter is ES6 fetures!!!
 UserSchema.virtual('postCount').get(function() {
   return this.posts.length;
 });

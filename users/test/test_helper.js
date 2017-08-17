@@ -31,7 +31,7 @@ before((done) => { // Only run one time of our test
     });
 });
 
-// beforeEach is a hook before each tests in our tests
+// beforeEach is a hook before each tests in our tests from Mocha
 // Done is available in every single "it block" and beforeEach block when we use Moka
 beforeEach((done) => {
   const { users, comments, blogposts } = mongoose.connection.collections;
