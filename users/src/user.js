@@ -15,9 +15,9 @@ const UserSchema = new Schema({
     // to some English friendly equivalent.
     required: [true, 'Name is required.']  // [required is true, error message]
   },
-  posts: [PostSchema], // Sub document
-  likes: Number,
-  blogPosts: [{
+  likes: Number, // 我地用左virtual type to create a postCount attribute!
+  posts: [PostSchema], // - Sub document 之前係直接將post object 放入尼個attribute.
+  blogPosts: [{  // - New version of PostSchema approach
     type: Schema.Types.ObjectId,
     ref: 'blogPost'
   }]
@@ -26,13 +26,19 @@ const UserSchema = new Schema({
 // testing file is in virtual_type_test.js
 // This is the way how we create a on the fire attribute for out model
 // getter and setter is ES6 fetures!!!
-UserSchema.virtual('postCount').get(function() {
+UserSchema.virtual('postCount').get(function() { // We don't use arrow function cuz we don't want this whole file object
   return this.posts.length;
 });
 
+// Add our middleware to user schema.
 UserSchema.pre('remove', function(next) {
+
+  // *********************Important*************************
+  // 如果唔係到create, 直接用係上面 require a blogPost object
+  // And blog post require user to do a middleware, 禁我點知邊個做先?
+  // So, we needa use the below line. 因為將尼一句放入係anonymous function入面，佢就唔會好似require禁，一開頭就load.
   const BlogPost = mongoose.model('blogPost');
-  // this === joe
+  // this === joe(current user)
 
   BlogPost.remove({ _id: { $in: this.blogPosts } })
     .then(() => next());

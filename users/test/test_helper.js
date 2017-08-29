@@ -38,6 +38,8 @@ beforeEach((done) => {
 
   // Making any types of operation on DB is asynchronous in nature.
   // So... we need callback function!
+  // Dropping 3 collections sequentially, it's take a little bit of time, but that is the only way we can do.
+  // We can't drop mutiple collections inside of Mongo at the same time!
   users.drop(() => {
     comments.drop(() => {
       blogposts.drop(() => {
