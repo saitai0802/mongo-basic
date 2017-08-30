@@ -12,7 +12,8 @@ describe('Reading users out of the database', () => {
     maria = new User({ name: 'Maria' });
     zach = new User({ name: 'Zach' });
 
-    // 就算未save 落DB，係尼一行，都已經有一個將要放入DB既 unique ID 係手。
+    // 就算未save 落DB，係尼一句joe.save()，都已經有一個將要放入DB既 unique ID 係手。
+    // The sequence of creation may not be the same as Joe>Alex>Maria>Zach
     Promise.all([joe.save(), alex.save(), maria.save(), zach.save()])
       .then(() => done());
   });
@@ -34,13 +35,15 @@ describe('Reading users out of the database', () => {
     User.findOne({ _id: joe._id })
       .then((user) => {
         assert(user.name === 'Joe');
-        done(); 
+        done();
       });
   });
 
   it('can skip and limit the result set', (done) => {
-    User.find({})
-      .sort({ name: 1 })
+    User.find({})  // Just passing in an object means don't needa filter our result.
+      // We use sorting becuase we wanna make sure the order is always the same.
+      //  Promise.all() is not guarantee the sequence of creation.
+      .sort({ name: 1 })  // 1: Ascending, -1: Descending
       .skip(1)
       .limit(2)
       .then((users) => {

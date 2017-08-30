@@ -17,9 +17,9 @@ describe('Middlware', () => {
   });
 
   it('users clean up dangling blogposts on remove', (done) => {
-    joe.remove()
+    joe.remove() //Trigger pre middleware in user model.
       .then(() => BlogPost.count())
-      .then((count) => {
+      .then((count) => {  // It will call with the result of the last operation: BlogPost.count()
         assert(count === 0);
         done();
       });

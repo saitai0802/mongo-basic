@@ -16,7 +16,7 @@ const UserSchema = new Schema({
     required: [true, 'Name is required.']  // [required is true, error message]
   },
   likes: Number, // 我地用左virtual type to create a postCount attribute!
-  posts: [PostSchema], // - Sub document 之前係直接將post object 放入尼個attribute.
+  posts: [PostSchema], // - Sub document 之前係直接將post schema 放入尼個attribute.[無行到mongoose.model()]
   blogPosts: [{  // - New version of PostSchema approach
     type: Schema.Types.ObjectId,
     ref: 'blogPost'
@@ -40,7 +40,10 @@ UserSchema.pre('remove', function(next) {
   const BlogPost = mongoose.model('blogPost');
   // this === joe(current user)
 
-  BlogPost.remove({ _id: { $in: this.blogPosts } })
+  // BlogPost.remove({ _id: _id }) This is delete one blog post
+  // Get all the blog post in blogpost collection, look at their IDs. If the id is in current blogPosts array.
+  // Then remove it!
+  BlogPost.remove({ _id: { $in: this.blogPosts } })  //This is delete a list of object.
     .then(() => next());
 });
 
