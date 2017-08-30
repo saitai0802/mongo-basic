@@ -7,7 +7,7 @@ const AlbumSchema = new Schema({
   copiesSolid: Number,
   numberTracks: Number,
   image: String,
-  revenue: Number
+  revenue: Number  // Just store raw number format.
 });
 
 module.exports = AlbumSchema;
