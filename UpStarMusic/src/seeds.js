@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import faker from 'faker';
+import faker from 'faker';  // <=== Sai: Really nice tool to generate data!
 import { Db, Server } from 'mongodb';
 import { GENRES } from './constants';
 

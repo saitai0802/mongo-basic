@@ -3,12 +3,15 @@ const AlbumSchema = require('./album');
 const Schema = mongoose.Schema;
 
 const ArtistSchema = new Schema({
-  //name: String,
 
   // https://stackoverflow.com/questions/40806871/full-text-search-in-node-js-with-mongoose
-  // We needa user the below format because we needa search the name in our view
-  // or else it will response something like "text index required for $text query".
-  name: {type: [String], text: true},
+  // We must specify a field that will be indexed as a text field.
+  // or else it will response something like <<<text index required for $text query>>> !
+  // (Mongo currently only supports an index on a single field!)
+  //name: {type: [String], text: true},
+
+
+  name: String,
   age: Number,  // Poor choice, cuz you needa increase one every year.
   yearsActive: Number, // How many year artist working in music industry
   image: String,
